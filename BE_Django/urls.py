@@ -19,6 +19,8 @@ from django.conf.urls import include, url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('test/', include('apps.test.urls')),
+    url('^api-auth/', include('rest_framework.urls')),
+    path('test/', include('test.urls')),
     path('projects/', include('apps.projects.urls')),
+    url('projects/(?P<pk>[0-9]+)/$', include('apps.projects.urls')), 
 ]
