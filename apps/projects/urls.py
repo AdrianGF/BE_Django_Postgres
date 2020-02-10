@@ -1,14 +1,23 @@
 from django.urls import path
-from rest_framework.routers import DefaultRouter
-from .views import ProjectsViewSetAdmin
-from .views import ProjectsPreviewSetAdmin
 from django.conf.urls import include, url
-# from . import views
+from rest_framework.routers import DefaultRouter
+from .views import ProjectListView
+
+app_name = 'projects'
 
 router = DefaultRouter()
-router.register('projects', ProjectsViewSetAdmin)
+router.register('projects', ProjectListView)
+
+projects_list = ProjectListView.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+
+projects_details = ProjectListView.as_view({
+    'get': 'retrieve'
+})
 
 urlpatterns = [
-    #/projects/
-    url(r'', include(router.urls)),
+    path('projects/', projects_list, name='project_list'),
+    path('projects/<slug>', projects_details, name='project_details')    
 ]

@@ -69,6 +69,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'apps.authentication.backends.JWTAuthentication',
     ),
+
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 20,
 }
@@ -112,7 +116,7 @@ WSGI_APPLICATION = 'BE_Django.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql', 
-        'NAME': 'django_drf',
+        'NAME': 'django_DRF_slug',
         'USER': 'postgres_user',
         'PASSWORD': '123456',
         'HOST': 'postgres',

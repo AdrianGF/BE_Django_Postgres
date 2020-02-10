@@ -21,7 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url('^api-auth/', include('rest_framework.urls')),
     path('api/', include('apps.authentication.urls', namespace='authentication')),
+    path('api/', include('apps.projects.urls', namespace='projects')),
     path('test/', include('test.urls')),
-    path('projects/', include('apps.projects.urls')),
-    url('projects/<pk>/', include('apps.projects.urls')),
 ]

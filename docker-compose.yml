@@ -36,7 +36,7 @@ services:
     environment:
       POSTGRES_PASSWORD: 123456
       POSTGRES_USER: postgres_user
-      POSTGRES_DB: postgres_db
+      POSTGRES_DB: django_drf
     # tty: false
     ports:
       - "52020:5432"
