@@ -11,5 +11,6 @@ class Projects(models.Model):
     img = models.CharField(max_length=200)
     financed = models.IntegerField(default=0)
     pub_date = models.DateTimeField('date published')
+
     def __str__(self):
         return self.title

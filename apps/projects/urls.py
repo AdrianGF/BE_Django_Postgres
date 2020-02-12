@@ -2,6 +2,7 @@ from django.urls import path
 from django.conf.urls import include, url
 from rest_framework.routers import DefaultRouter
 from .views import ProjectListView
+from .views import ProjectsFavoriteAPIView;
 
 app_name = 'projects'
 
@@ -19,5 +20,6 @@ projects_details = ProjectListView.as_view({
 
 urlpatterns = [
     path('projects/', projects_list, name='project_list'),
-    path('projects/<slug>', projects_details, name='project_details')    
+    path('projects/<slug>', projects_details, name='project_details'),
+    path('projects/<slug>/favorite/',ProjectsFavoriteAPIView.as_view()),    
 ]
