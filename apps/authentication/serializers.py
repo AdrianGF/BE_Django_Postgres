@@ -34,9 +34,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
         
 class LoginSerializer(serializers.Serializer):
-    email = serializers.CharField(max_length=255)
-    username = serializers.CharField(max_length=255, read_only=True)
-    password = serializers.CharField(max_length=128, write_only=True)
+    email = serializers.CharField( max_length=255)
+    username = serializers.CharField( max_length=255, read_only=True)
+    password = serializers.CharField( max_length=128, write_only=True)
     token = serializers.CharField(max_length=255, read_only=True)
 
     def validate(self, data):
@@ -138,7 +138,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         """Performs an update on a User."""
-
+        print("update!", validated_data)
         # Passwords should not be handled with `setattr`, unlike other fields.
         # This is because Django provides a function that handles hashing and
         # salting passwords, which is important for security. What that means
@@ -149,7 +149,7 @@ class UserSerializer(serializers.ModelSerializer):
         # Like passwords, we have to handle profiles separately. To do that,
         # we remove the profile data from the `validated_data` dictionary.
         profile_data = validated_data.pop('profile', {})
-
+        print("profile_data", profile_data)
         for (key, value) in validated_data.items():
             # For the keys remaining in `validated_data`, we will set them on
             # the current `User` instance one at a time.

@@ -1,9 +1,11 @@
 from rest_framework import status
+from rest_framework.exceptions import NotFound
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .renderers import UserJSONRenderer
+
 from .serializers import (
     LoginSerializer, RegistrationSerializer, UserSerializer
 )
@@ -36,17 +38,18 @@ class LoginAPIView(APIView):
     renderer_classes = (UserJSONRenderer,)
     serializer_class = LoginSerializer
 
+
     def post(self, request):
         user = request.data.get('user', {})
-
-        # Notice here that we do not call `serializer.save()` like we did for
-        # the registration endpoint. This is because we don't actually have
-        # anything to save. Instead, the `validate` method on our serializer
-        # handles everything we need.
-        serializer = self.serializer_class(data=user)
-        serializer.is_valid(raise_exception=True)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        if user.get('email') == "" or user.get('password') == "":
+            # print("error")
+            raise NotFound('email and password not found.')
+        else:
+            # print("bien")
+            serializer = self.serializer_class(data=user)
+            serializer.is_valid(raise_exception=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
 class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
     permission_classes = (IsAuthenticated,)
@@ -63,7 +66,7 @@ class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
 
     def update(self, request, *args, **kwargs):
         user_data = request.data.get('user', {})
-
+        print(user_data.get('image'))
         serializer_data = {
             'username': user_data.get('username', request.user.username),
             'email': user_data.get('email', request.user.email),
@@ -80,6 +83,7 @@ class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
             request.user, data=serializer_data, partial=True
         )
         serializer.is_valid(raise_exception=True)
+        print("print_serial",serializer)
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_200_OK)
